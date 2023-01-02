@@ -1,0 +1,3 @@
+- ansible.builtin.import_playbook: playbooks/00_install_requirements.yml
+- ansible.builtin.import_playbook: playbooks/01_setup_requirements.yml
+- ansible.builtin.import_playbook: playbooks/02_provision_vms.yml

@@ -138,6 +138,6 @@ resource "libvirt_domain" "kube-control" {
   }
 }
 
-output "ignition_config" {
-  value = libvirt_ignition.ignition.content
+output "machines" {
+  value = flatten(libvirt_domain.kube-control.*)
 }

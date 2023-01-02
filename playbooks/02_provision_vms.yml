@@ -1,0 +1,25 @@
+---
+- name: Create virtual machines
+  hosts: lab_host
+  tasks:
+    - name: Create kubernetes control plane virtual machine
+      community.general.terraform:
+        project_path: "{{ ansible_env.HOME }}/terraform/control"
+        force_init: true
+        state: present
+      register: output_control
+      become: true
+
+    - name: Create kubernetes worker node virtual machines
+      community.general.terraform:
+        project_path: "{{ ansible_env.HOME }}/terraform/workers"
+        force_init: true
+        state: present
+      register: output_workers
+      become: true
+
+    # TODO: This is very ugly and needs to be fixed
+    - name: Output virtual machine information
+      ansible.builtin.debug:
+        msg: "{{ item.name }} - {{ item.network_interface[0].addresses[0] }} - {{ item.network_interface[0].mac }}"
+      loop: "{{ output_control.outputs.machines.value + output_workers.outputs.machines.value }}"

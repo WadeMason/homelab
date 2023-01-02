@@ -1,0 +1,23 @@
+---
+- name: Install required packages and configure the virtual machine host
+  hosts: lab_host
+  tasks:
+    - name: Enable the Hashicorp repo
+      ansible.builtin.get_url:
+        mode: 0644
+        url: https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+        dest: /etc/yum.repos.d/hashicorp.repo
+        checksum: sha256:864ff98132f9b3b183c4efbc54780ed1d045cd29c59b4f2292bbfceea6fcc413
+      become: true
+
+    - name: Upgrade all packages
+      ansible.builtin.dnf:
+        name: '*'
+        state: latest
+      become: true
+
+    - name: Install required packages
+      ansible.builtin.dnf:
+        name: "{{ lab_host_packages }}"
+        state: latest
+      become: true

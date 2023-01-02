@@ -145,6 +145,6 @@ resource "libvirt_domain" "kube-workers" {
   }
 }
 
-output "ignition_config" {
-  value = libvirt_ignition.ignition.*.content
+output "machines" {
+  value = flatten(libvirt_domain.kube-workers.*)
 }

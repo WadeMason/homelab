@@ -1,5 +1,0 @@
-.terraform
-.terraform.lock.hcl
-*.tfstate*
-config.tmp.bu
-transpiled_config.ign

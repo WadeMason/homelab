@@ -1,0 +1,7 @@
+coreos_download_url: "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/37.20221211.3.0/x86_64/fedora-coreos-37.20221211.3.0-qemu.x86_64.qcow2.xz"
+coreos_image_name: "fedora-coreos.qcow2"
+lab_host_packages:
+  - terraform
+  - ansible-core
+  - libvirt
+  - tmux

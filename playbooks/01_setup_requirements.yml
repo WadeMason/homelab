@@ -1,0 +1,28 @@
+---
+- name: Prepare host for virtual machine creation
+  hosts: lab_host
+  tasks:
+    - name: Generate an OpenSSH rsa keypair
+      community.crypto.openssh_keypair:
+        path: ~/.ssh/id_rsa
+
+    # - name: Download Fedora CoreOS archive
+    #   ansible.builtin.get_url:
+    #     url: "{{ coreos_download_url }}"
+    #     dest: /tmp
+    #     mode: 0644
+    #   register: coreos_archive_filename
+
+    # - name: Extract Fedora CoreOS archive
+    #   ansible.builtin.shell:
+    #     cmd: "xz -f -d {{ coreos_archive_filename.dest }}"
+
+    # - name: Move Fedora CoreOS image
+    #   ansible.builtin.shell:
+    #     cmd: "mv -f {{ coreos_archive_filename.dest[:-3] }} /tmp/{{ coreos_image_name }}"
+
+    - name: Copy Terraform files
+      ansible.builtin.copy:
+        src: "../terraform/"
+        dest: "{{ ansible_env.HOME }}/terraform"
+        mode: 0644
