@@ -23,3 +23,12 @@
       ansible.builtin.debug:
         msg: "{{ item.name }} - {{ item.network_interface[0].addresses[0] }} - {{ item.network_interface[0].mac }}"
       loop: "{{ output_control.outputs.machines.value + output_workers.outputs.machines.value }}"
+
+    - name: Update the /etc/hosts file
+      ansible.builtin.lineinfile:
+        dest: /etc/hosts
+        regexp: "^.*{{ item.name }}$"
+        line: "{{ item.network_interface[0].addresses[0] }} {{ item.name }}"
+        state: present
+      loop: "{{ output_control.outputs.machines.value + output_workers.outputs.machines.value }}"
+      become: true
