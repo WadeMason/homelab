@@ -9,6 +9,8 @@ variable "memory" { default = 8 }
 variable "cpu" { default = 8 }
 variable "disk_size" { default = 20 }
 
+variable "user_dir" { default = "~" }
+
 # Terraform configuration
 terraform {
   required_providers {
@@ -71,7 +73,7 @@ data "ignition_file" "file_sysctl" {
 data "ignition_user" "core" {
   name = "core"
   ssh_authorized_keys = [
-    file(pathexpand("~/.ssh/id_rsa.pub"))
+    file(pathexpand("${var.user_dir}/.ssh/id_rsa.pub"))
   ]
 }
 

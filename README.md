@@ -21,12 +21,16 @@ After that, just run:
 ```bash
 ansible-playbook main.yml -K
 ```
+Now you can ssh to each VM:
+```bash
+ssh core@kube-control
+```
 
 ## Notes
 
 Systems are configured with the following resources:
 | Name | Role | vCPU | RAM |
 |--|--|--|--|
-| kube-control | control-plane | 8 | 8GB |
+| kube-control | control plane | 8 | 8GB |
 | kube-worker1 | worker | 8 | 16GB |
 | kube-worker2 | worker | 8 | 16GB |

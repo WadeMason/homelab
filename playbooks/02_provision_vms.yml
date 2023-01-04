@@ -2,11 +2,17 @@
 - name: Create virtual machines
   hosts: lab_host
   tasks:
+    - name: Set non_root_user_dir to provide the correct SSH key in Terraform
+      ansible.builtin.set_fact:
+        non_root_user_dir: "{{ ansible_user_dir }}"
+
     - name: Create kubernetes control plane virtual machine
       community.general.terraform:
         project_path: "{{ ansible_env.HOME }}/terraform/control"
         force_init: true
         state: present
+        variables:
+          user_dir: "{{ non_root_user_dir }}"
       register: output_control
       become: true
 
@@ -15,10 +21,13 @@
         project_path: "{{ ansible_env.HOME }}/terraform/workers"
         force_init: true
         state: present
+        variables:
+          user_dir: "{{ non_root_user_dir }}"
       register: output_workers
       become: true
 
     # TODO: This is very ugly and needs to be fixed
+    # It also breaks if the IP addresses aren't set at this point (they're usually not during the initial run)
     - name: Output virtual machine information
       ansible.builtin.debug:
         msg: "{{ item.name }} - {{ item.network_interface[0].addresses[0] }} - {{ item.network_interface[0].mac }}"

@@ -4,7 +4,7 @@
   tasks:
     - name: Generate an OpenSSH rsa keypair
       community.crypto.openssh_keypair:
-        path: ~/.ssh/id_rsa
+        path: "{{ ansible_user_dir }}/.ssh/id_rsa"
 
     # - name: Download Fedora CoreOS archive
     #   ansible.builtin.get_url:
